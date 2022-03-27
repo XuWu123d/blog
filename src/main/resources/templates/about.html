@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{_fragments::head(~{::title})}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我</title>
+    <!--引入资源-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/me.css">
+</head>
+<body class="aboutBody">
+  <!--导航-->
+  <div th:replace="~{_fragments::menu(5)}"></div>
+
+  <!--ui代表这是一个ui组件，inverted颜色反转,attached没有圆角,m-padded-tb-mini为自定义的样式，在css文件中-->
+  <!--m-shadow-small自定义阴影效果-->
+<!--  <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small">-->
+<!--      &lt;!&ndash;container让Blog有间隔&ndash;&gt;-->
+<!--      <div class="ui m-align">-->
+<!--          &lt;!&ndash;stackable适应手机端&ndash;&gt;-->
+<!--          <div class="ui inverted secondary stackable menu">-->
+<!--              &lt;!&ndash;teal是一种颜色，item代表menu里的每一个条目&ndash;&gt;-->
+<!--              <h2 class="ui teal header item">Blog</h2>-->
+<!--              &lt;!&ndash;m-mobile-hide为自定义，菜单隐藏&ndash;&gt;-->
+<!--              &lt;!&ndash;定义m-item是为了获取元素，作用相对于id，name，jquery（document）操作,绑定点击事件&ndash;&gt;-->
+<!--              <a href="index.html" class="m-item item m-mobile-hide"><i class="home icon"></i>首页</a>  &lt;!&ndash;第二个class的内容为图标样式&ndash;&gt;-->
+<!--              <a href="types.html" class="m-item item m-mobile-hide"><i class="idea icon"></i>分类</a>-->
+<!--              <a href="tags.html" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>-->
+<!--              <a href="archives.html" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>-->
+<!--              <a href="#" class="active m-item item m-mobile-hide"><i class="info icon"></i>关于我</a>-->
+<!--              &lt;!&ndash;搜索框会向右靠&ndash;&gt;-->
+<!--              <div class="right m-item item m-mobile-hide">-->
+<!--                  &lt;!&ndash;icon代表加一个图标&ndash;&gt;-->
+<!--                  <div class="ui icon input">-->
+<!--                      <input type="text" placeholder="搜索...">-->
+<!--                      <i class="search link icon"></i>-->
+<!--                  </div>-->
+<!--              </div>-->
+<!--          </div>-->
+<!--      </div>-->
+<!--      &lt;!&ndash;菜单按钮（自定义），m-right-top菜单位置，m-mobile-show菜单显示&ndash;&gt;-->
+<!--      &lt;!&ndash;定义toggle black是为了获取元素信息，作用相对于id，name，jquery（document）操作&ndash;&gt;-->
+<!--      <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">-->
+<!--          <i class="sidebar icon"></i>-->
+<!--      </a>-->
+<!--  </nav>-->
+
+  <!--中间内容-->
+  <div class="ui container m-padded-tb-large m-about-size">
+      <div class="ui attached segment" align="center">
+          <div class="m-fontSize-title m-right-bottom">关于我</div>
+          <div class="ui attached segment" align="center">
+              <img src="../static/image/weChatHead.png" th:src="@{/image/weChatHead.png}" alt="" class="ui circular image" width="200" height="200">
+          </div>
+          <div class="ui attached segment" align="center">
+              <div style="font-size: 25px;">喜欢二次元</div>
+              <div style="font-size: 25px;">对其情有独钟</div>
+              <div style="font-size: 25px;">热爱编程</div>
+              <div style="font-size: 25px;">为了生活而奋斗</div>
+              <div style="font-size: 25px;">人生如逆旅</div>
+              <div style="font-size: 25px;">愿在苦难中寻找阳光</div>
+              <div style="font-size: 25px;">在奋斗中寻找自我</div>
+              <div style="font-size: 25px;">来自一个苦逼人的祝福</div>
+          </div>
+          <div class="ui attached segment">
+              <div class="ui orange basic label">二次元</div>
+              <div class="ui orange basic label">动漫</div>
+              <div class="ui orange basic label">游戏</div>
+          </div>
+          <div class="ui attached segment">
+              <div class="ui teal basic label">java</div>
+              <div class="ui teal basic label">javaScript</div>
+              <div class="ui teal basic label">c</div>
+          </div>
+          <div class="ui attached segment">
+              <a href="https://github.com/XuWu123d/blog" target="_blank" class="ui circular icon button"><i class="github icon"></i></a>
+              <a href="#"class="ui wechat circular icon button"><i class="weixin icon"></i></a>
+              <a href="#"class="ui qq circular icon button" data-content="2784411725" data-position="bottom center"><i class="qq icon"></i></a>
+              <!--qq为jquery操作，data-position为移动到图标后qq号出现的位置-->
+          </div>
+          <div class="ui wechat-qr flowing popup transition hidden">
+              <img src="../static/image/qq.PNG" th:src="@{/image/QQ.jpg}" alt="" class="ui rounded image" width="100px">
+          </div>
+      </div>
+  </div>
+
+  <!--底部footer-->
+  <div th:replace="~{_fragments::foot}"></div>
+<!--  &lt;!&ndash;vertical垂直功能&ndash;&gt;-->
+<!--  <footer class="ui inverted vertical segment m-padded-tb-massive">-->
+<!--    <div class="ui center aligned container">-->
+<!--        &lt;!&ndash;divided分割的样式&ndash;&gt;-->
+<!--        <div class="ui inverted divided stackable grid">-->
+<!--            &lt;!&ndash;网格布局，semantic ui总共16份&ndash;&gt;-->
+<!--            <div class="three wide column">-->
+<!--&lt;!&ndash;                <div class="ui inverted link list">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="item">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <img src="./image/qq.PNG">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--                <img src="../static/image/qq.PNG">-->
+<!--            </div>-->
+<!--            <div class="three wide column">-->
+<!--                <h4 class="ui inverted header">最新博客</h4>-->
+<!--                <div class="ui inverted link list">-->
+<!--                    <a href="#" class="item">用户故事{User Story}</a>-->
+<!--                    <a href="#" class="item">用户故事{User Story}</a>-->
+<!--                    <a href="#" class="item">用户故事{User Story}</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="three wide column">-->
+<!--                <h4 class="ui inverted header">联系我</h4>-->
+<!--                <div class="ui inverted link list">-->
+<!--                    <a href="#" class="item">Email：2784411725@qq.com</a>-->
+<!--                    <a href="#" class="item">QQ：2784411725</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="seven wide column">-->
+<!--                <h4 class="ui inverted header">Blog</h4>-->
+<!--                <p>这是关于编程的博客，希望可以给来到这儿的人有所帮助</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;画一条线&ndash;&gt;-->
+<!--        <div class="ui inverted section divider"></div>-->
+<!--        <p>Copyright @2016-2017 Lirenmi Designed by Lirenmi</p>-->
+<!--    </div>-->
+<!--  </footer>-->
+
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--  <script src="../static/lib/semantic/Semantic-UI-1.12.2/dist/semantic.min.js" th:src="@{/lib/semantic/Semantic-UI-1.12.2/dist/semantic.min.js}"></script>-->
+
+<script>
+    //绑定点击事件
+    $('.menu.toggle').click(function () {
+        //toggleClass,像开关一样的属性，如果有就去除掉，如果没有就加上
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.wechat').popup({
+        popup: $('.wechat-qr'),
+        position:'bottom center'
+    });
+
+    $('.qq').popup({
+
+    });
+</script>
+</body>
+</html>

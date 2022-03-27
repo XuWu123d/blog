@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{admin/fragement::head(~{::title})}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客发布</title>
+    <!--引入资源-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+</head>
+<body>
+  <!--导航-->
+  <!--ui代表这是一个ui组件，inverted颜色反转,attached没有圆角,m-padded-tb-mini为自定义的样式，在css文件中-->
+  <!--m-shadow-small自定义阴影效果-->
+  <div th:replace="~{admin/fragement::menu(3)}"></div>
+<!--  <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small">-->
+<!--      &lt;!&ndash;container让Blog有间隔&ndash;&gt;-->
+<!--      <div class="ui m-align">-->
+<!--          &lt;!&ndash;stackable适应手机端&ndash;&gt;-->
+<!--          <div class="ui inverted secondary stackable menu">-->
+<!--              &lt;!&ndash;teal是一种颜色，item代表menu里的每一个条目&ndash;&gt;-->
+<!--              <h2 class="ui teal header item">管理后台</h2>-->
+<!--              &lt;!&ndash;m-mobile-hide为自定义，菜单隐藏&ndash;&gt;-->
+<!--              &lt;!&ndash;定义m-item是为了获取元素，作用相对于id，name，jquery（document）操作,绑定点击事件&ndash;&gt;-->
+<!--              <a href="#" class="active m-item item m-mobile-hide"><i class="home icon"></i>博客</a>  &lt;!&ndash;第二个class的内容为图标样式&ndash;&gt;-->
+<!--              <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>分类</a>-->
+<!--              <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>-->
+<!--              <div class="right menu">-->
+<!--                  <div class="ui dropdown item m-margin-right">-->
+<!--                      <div class="text">-->
+<!--                          <div class="item">-->
+<!--                              &lt;!&ndash;avatar圆形小图&ndash;&gt;-->
+<!--                              <img src="../../static/image/3.jpg" width="20" height="20" alt="" class="ui avatar m-mobile-hide image">-->
+<!--                              <div class="ui m-mobile-hide m-margin">明日</div>-->
+<!--                          </div>-->
+<!--                      </div>-->
+<!--                      <i class="dropdown m-mobile-hide icon"></i>-->
+<!--                      <div class="menu">-->
+<!--                          <a href="#" class="item m-mobile-hide">注销</a>-->
+<!--                      </div>-->
+<!--                  </div>-->
+<!--              </div>-->
+
+<!--          </div>-->
+<!--      </div>-->
+<!--      &lt;!&ndash;菜单按钮（自定义），m-right-top菜单位置，m-mobile-show菜单显示&ndash;&gt;-->
+<!--      &lt;!&ndash;定义toggle black是为了获取元素信息，作用相对于id，name，jquery（document）操作&ndash;&gt;-->
+<!--      <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">-->
+<!--          <i class="sidebar icon"></i>-->
+<!--      </a>-->
+<!--  </nav>-->
+
+  <div class="ui attached menu">
+      <div class="ui container">
+          <div class="ui right menu">
+              <a href="#" th:href="@{/admin/tag/input}" class="active item">发布</a>
+              <a href="#" th:href="@{/admin/tag}" class="item">列表</a>
+          </div>
+      </div>
+  </div>
+
+  <!--中间内容-->
+  <div class="ui m-padded-tb-large m-size">
+      <div class="ui m-margin-body">
+          <!--头部-->
+              <form action="#" th:object="${tag}" th:action="*{id}==null ? @{/admin/tagInput} : @{/admin/tagInput/{id}(id=*{id})}" th:value="${tag}" method="post" class="ui form"> <!--th:object="${update}"-->
+                  <input type="hidden" name="id" th:value="*{id}">
+                  <div class="required filed">
+                      <div class="ui fluid left labeled input">
+                          <label class="ui teal basic label">名称</label>
+                          <input type="text" name="name" placeholder="分类名称" th:value="*{name}"> <!--th:value="*{name}"-->
+                      </div>
+                  </div>
+
+                  <!--打印错误信息-->
+                  <div class="ui error message"></div>
+                  <!--/*/
+                  <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
+                      <i class="close icon"></i>
+                      <div class="header">验证失败</div>
+                      <p th:errors="*{name}">提交信息不符合规则</p>
+                  </div>
+                  /*/-->
+                  <div class="ui right aligned container a-margin">
+                      <!--点击触发事件，返回上一页-->
+                      <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                      <button class="ui teal button">提交</button>
+                  </div>
+              </form>
+      </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <!--底部footer-->
+  <div th:replace="~{admin/fragement::foot}"></div>
+  <!--vertical垂直功能-->
+<!--  <footer class="ui inverted vertical segment m-padded-tb-massive">-->
+<!--    <div class="ui center aligned container">-->
+<!--        &lt;!&ndash;divided分割的样式&ndash;&gt;-->
+<!--        <div class="ui inverted divided stackable grid">-->
+<!--            &lt;!&ndash;网格布局，semantic ui总共16份&ndash;&gt;-->
+<!--            <div class="three wide column">-->
+<!--&lt;!&ndash;                <div class="ui inverted link list">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="item">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <img src="./image/qq.PNG">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--                <img src="../../static/image/qq.PNG">-->
+<!--            </div>-->
+<!--            <div class="three wide column">-->
+<!--                <h4 class="ui inverted header">最新博客</h4>-->
+<!--                <div class="ui inverted link list">-->
+<!--                    <a href="#" class="item">用户故事{User Story}</a>-->
+<!--                    <a href="#" class="item">用户故事{User Story}</a>-->
+<!--                    <a href="#" class="item">用户故事{User Story}</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="three wide column">-->
+<!--                <h4 class="ui inverted header">联系我</h4>-->
+<!--                <div class="ui inverted link list">-->
+<!--                    <a href="#" class="item">Email：2784411725@qq.com</a>-->
+<!--                    <a href="#" class="item">QQ：2784411725</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="seven wide column">-->
+<!--                <h4 class="ui inverted header">Blog</h4>-->
+<!--                <p>这是关于编程的博客，希望可以给来到这儿的人有所帮助</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;画一条线&ndash;&gt;-->
+<!--        <div class="ui inverted section divider"></div>-->
+<!--        <p>Copyright @2016-2017 Lirenmi Designed by Lirenmi</p>-->
+<!--    </div>-->
+<!--  </footer>-->
+
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--  <script src="../../static/lib/semantic/Semantic-UI-1.12.2/dist/semantic.min.js" th:src="@{/lib/semantic/Semantic-UI-1.12.2/dist/semantic.min.js}"></script>-->
+<script src="../../static/lib/editormd/editormd.min.js"></script>
+
+<script>
+
+    //绑定点击事件(菜单按钮)
+    $('.menu.toggle').click(function () {
+        //toggleClass,像开关一样的属性，如果有就去除掉，如果没有就加上
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    //右上角个人信息注销功能
+    $('.ui.dropdown').dropdown({
+        on:'hover'
+    });
+
+    //表单提交验证
+    $('.ui.form').form({
+       fields:{
+           title:{
+               identifier: 'name',
+               rules: [{
+                   type: 'empty',
+                   prompt: '请输入分类名称'
+               }]
+           }
+       }
+    });
+
+
+</script>
+</body>
+</html>

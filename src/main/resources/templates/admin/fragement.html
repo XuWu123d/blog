@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客详情</title>
+    <!--引入资源-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+<!--    <link rel="stylesheet" href="../../static/lib/semantic/Semantic-UI-1.12.2/dist/semantic.min.css" th:href="@{/lib/semantic/Semantic-UI-1.12.2/dist/semantic.min.css}">-->
+    <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}"> <!--代码高亮插件-->
+    <link rel="stylesheet" href="../../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+<!--导航-->
+<!--ui代表这是一个ui组件，inverted颜色反转,attached没有圆角,m-padded-tb-mini为自定义的样式，在css文件中-->
+<!--m-shadow-small自定义阴影效果-->
+<nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" th:fragment="menu(n)">
+    <!--container让Blog有间隔-->
+    <div class="ui m-align">
+        <!--stackable适应手机端-->
+        <div class="ui inverted secondary stackable menu">
+            <!--teal是一种颜色，item代表menu里的每一个条目-->
+            <h2 class="ui teal header item">管理后台</h2>
+            <!--m-mobile-hide为自定义，菜单隐藏-->
+            <!--定义m-item是为了获取元素，作用相对于id，name，jquery（document）操作,绑定点击事件-->
+            <a href="#" th:href="@{/admin/blogs}" class="m-item item m-mobile-hide" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>博客</a>  <!--第二个class的内容为图标样式-->
+            <a href="#" th:href="@{/admin/type}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="idea icon"></i>分类</a>
+            <a href="#" th:href="@{/admin/tag}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="tags icon"></i>标签</a>
+            <div class="right menu">
+                <div class="ui dropdown item m-margin-right">
+                    <div class="text">
+                        <div class="item">
+                            <!--avatar圆形小图-->
+                            <img src="../../static/image/3.jpg" th:src="@{/image/3.jpg}" width="20" height="20" alt="" class="ui avatar m-mobile-hide image">
+                            <div class="ui m-mobile-hide m-margin">明日</div>
+                        </div>
+                    </div>
+                    <i class="dropdown m-mobile-hide icon"></i>
+                    <div class="menu">
+                        <a href="#" th:href="@{/admin/logout}" class="item m-mobile-hide">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--菜单按钮（自定义），m-right-top菜单位置，m-mobile-show菜单显示-->
+    <!--定义toggle black是为了获取元素信息，作用相对于id，name，jquery（document）操作-->
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+
+
+<!--底部footer-->
+    <!--vertical垂直功能-->
+    <footer class="ui inverted vertical segment m-padded-tb-massive" th:fragment="foot">
+        <div class="ui center aligned container">
+            <!--divided分割的样式-->
+            <div class="ui inverted divided stackable grid">
+                <!--网格布局，semantic ui总共16份-->
+                <div class="three wide column">
+                    <h4 ui inverted header>QQ关注</h4>
+                    <img src="../../static/image/QQ.jpg" th:src="@{/image/QQ.jpg}" style="height: 120px; width: 120px;">
+                </div>
+                <div class="three wide column">
+                    <h4 class="ui inverted header">微信关注</h4>
+                    <!--用Javascript实现动态获取-->
+                    <div id="newblog">
+                        <div class="ui inverted link list" th:fragment="newblogList">
+                            <img src="../../static/image/weChat.png" th:src="@{/image/weChat.png}" style="height: 120px; width: 120px;">
+                            <!--                        <a href="#" th:href="${/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog:${newblogs}">用户故事{User Story}</a>-->
+                            <!--/*-->
+                            <a href="#" class="item">用户故事{User Story}</a>
+                            <a href="#" class="item">用户故事{User Story}</a>
+                            <!--*/-->
+                        </div>
+                    </div>
+                </div>
+                <div class="three wide column">
+                    <h4 class="ui inverted header">联系我</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">Email：2784411725@qq.com</a>
+                        <a href="#" class="item">QQ：2784411725</a>
+                    </div>
+                </div>
+                <div class="seven wide column">
+                    <h4 class="ui inverted header">MingBlog</h4>
+                    <p>这是关于编程的博客，希望可以给来到这儿的人有所帮助</p>
+                </div>
+            </div>
+            <!--画一条线-->
+            <div class="ui inverted section divider"></div>
+            <p style="color: red; font-size: 25px;">温馨的日子里，把最美好的祝福献给你</p>
+        </div>
+        <script>
+            $('#newblog').load(/*[[@{/footer/newblog}]]*/)
+        </script>
+
+
+    <!--看板娘-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+
+    </footer>
+
+<div th:fragment="resource">
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--    <script src="../../static/lib/semantic/Semantic-UI-1.12.2/dist/semantic.min.js" th:src="@{/lib/semantic/Semantic-UI-1.12.2/dist/semantic.min.js}"></script>-->
+    <script src="../../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="../../static/lib/tocbot/tocbot.js" th:src="@{/lib/tocbot/tocbot.js}"></script>
+    <script src="../../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+    <script src="../../static/lib/scrollTo/jquery.scrollTo.min.js" th:src="@{/lib/scrollTo/jquery.scrollTo.min.js}"></script>
+    <script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+</div>
+</body>
+</html>

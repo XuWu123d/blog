@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?serverTimeZone=GMT
+    username: root
+    password: root
+
+#日志配置
+logging:
+  level:       #日志级别
+    root: info    #info为默认，warn级别更高
+    com.example.blog1: debug  #自定义包的级别
+  file:
+    name: log/blog-dev.log    #日志文件的位置
+
+mybatis:
+  mapper-locations: classpath:com.example.blogofmybatis.dao/*.xml

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.blogofmybatis.dao.TypeDao">
+    <resultMap id="type" type="com.example.blogofmybatis.pojo.Type">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+    </resultMap>
+
+    <select id="listType" resultMap="type">
+        select * from t_type;
+    </select>
+
+    <select id="getListType" resultMap="type" parameterType="com.example.blogofmybatis.vo.Page">
+        select * from t_type limit #{start},#{end};
+    </select>
+
+    <select id="getType" resultMap="type" parameterType="Long">
+        select * from t_type where id = #{id};
+    </select>
+
+    <delete id="deleteType" parameterType="Long">
+        delete from t_type where id=#{id};
+    </delete>
+
+    <insert id="saveType" parameterType="com.example.blogofmybatis.pojo.Type">
+        insert into t_type(id,name) values(#{id},#{name});
+    </insert>
+
+    <select id="getTypeByName" parameterType="String" resultMap="type">
+        select * from t_type where name=#{name};
+    </select>
+
+    <update id="updateType" parameterType="com.example.blogofmybatis.pojo.Type">
+        update t_type set name=#{name} where id=#{id};
+    </update>
+
+    <select id="countType" resultType="Long">
+        select count(*) from t_type;
+    </select>
+</mapper>

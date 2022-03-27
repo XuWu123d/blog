@@ -1,0 +1,237 @@
+body{
+    background-image: url("../image/img.png");
+    background-attachment:fixed;
+    background-size: 100%;
+    no-repeat: center top;
+    font: 14px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+/*自定义每个封面图片*/
+.indexBody{
+    background-image: url("../image/8.jpg");
+    background-attachment:fixed;
+    background-size: 100%;
+    no-repeat: center top;
+    font: 14px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+.typesBody{
+    background-image: url("../image/5.jpg");
+    background-attachment:fixed;
+    background-size: 100%;
+    no-repeat: center top;
+    font: 14px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+.tagsBody{
+    background-image: url("../image/6.jpg");
+    background-attachment:fixed;
+    background-size: 100%;
+    no-repeat: center top;
+    font: 14px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+.archivesBody{
+    background-image: url("../image/7.jpg");
+    background-attachment:fixed;
+    background-size: 100%;
+    no-repeat: center top;
+    font: 14px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+.aboutBody{
+    background-image: url("../image/8.jpg");
+    background-attachment:fixed;
+    background-size: 100%;
+    no-repeat: center top;
+    font: 14px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+.m-Index {
+    /*background-image: url("../image/5.jpg");*/
+    width: 100%;
+    height: 650px;
+    object-fit: cover;
+}
+
+.m-font-size-title{
+    font-size: 450%;
+    color: #ffffff;
+}
+
+.m-right-bottom {
+    bottom: 0 !important;
+    right: 0 !important;
+}
+
+.m-font-size-text-init-title{
+    font-size: 24px;
+    color: #fffffc;
+    align-content: center;
+    font-family:'STXingkai';
+}
+
+.m-fontSize-title{
+    font-size: 450%;
+    color: black;
+}
+
+.m-margin-top {
+    margin-top: 1em !important;
+}
+
+.m-bg-type_outer {
+    display: block;
+    /*margin: 10px auto 0 0;*/
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+.m-bg-class_cover {
+    width: 100%;
+    height: 800px;
+    line-height: 50px;
+    padding-left: 6px;
+    /*这里是阴影设置的颜色做后一个0是阴影不透明度*/
+    /*background-color: rgba(0, 0, 0, 0);*/
+    background-color: rgba(0, 0, 0, .30);
+    /*color: #FFFFFF;*/
+    /*font-size: 26px;*/
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+}
+
+/*自定义样式，1个em为14个像素*/
+.m-padded-tb-mini{
+    padding-top: 0.2em !important;   /*!important提高级别*/
+    padding-bottom: 0.2em !important;
+}
+
+.m-padded-tb-massive{
+    padding-top: 5em !important;
+    padding-bottom: 5em !important;
+}
+
+.m-padded-tb-large{
+    padding-top: 4em !important;
+    padding-bottom: 4em !important;
+}
+
+.m-padding{
+    margin-top: 4em !important;
+}
+
+.m-align{
+    padding-left: 10em !important;
+    margin: auto !important;
+}
+
+.m-margin{
+    margin-left: 1em !important;
+}
+
+.m-margin-body{
+    margin-left: 22em !important;
+}
+
+.m-margin-right {
+    margin-right: 4em !important;
+}
+
+.m-size{
+    max-width: 120em !important;
+    /*margin: auto !important;*/
+}
+.m-size1{
+    max-width: 30em !important;
+    margin: auto !important;
+    margin-top: 20em !important;
+}
+
+.m-about-size{
+    max-width: 100em !important;
+    /*margin: auto !important;*/
+}
+
+.a-margin{
+    margin-top: 1em !important;
+}
+
+.m-margin1 {
+    margin-top: 3em !important;
+}
+
+/*****绝对定位*****/
+.m-fixed {
+    position: fixed !important; /*绝对布局*/
+    z-index: 1 !important; /*值越大，浮的越高*/
+}
+
+.m-right-bottom {
+    bottom: 1em !important; /*右下方*/
+    right: 1em !important;
+}
+
+/*设置字体颜色*/
+.m-font{
+    color: #333 !important;
+}
+
+.m-teal{
+    color: #00b5ad !important;
+}
+
+/*转换为行内块标签,不换行*/
+.m-inline-block{
+    display: inline-block !important;
+}
+
+/******阴影效果******/
+.m-shadow-small{
+    -webkit-box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important; /*为了适配谷歌等浏览器*/
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+    /*4为左右阴影，8为阴影虚幻范围，rgba是颜色，最后0.2代表透明度*/
+}
+
+/*****菜单设置*****/
+
+/*位置为右上角*/
+.m-right-top{
+    position:absolute;
+    top: 0;
+    right: 0;
+}
+/*默认为不展示*/
+.m-mobile-show {
+    display: none !important;
+}
+/*注意：@media一定要在css（该）文件最下面，不然无法生效。
+手机端（小于768像素（px））*/
+@media screen and (max-width: 768px){
+    .m-mobile-hide {
+        display: none !important;    /*当为手机端时不隐藏*/
+    }
+    .m-mobile-show {
+        display: block !important;   /*当为手机端时展示*/
+    }
+    .m-mobile-wide {
+        width: 100% !important;
+    }
+    .m-margin-body {
+        margin-left: 2em !important;
+    }
+}

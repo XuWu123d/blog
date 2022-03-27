@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.blogofmybatis.dao.BlogDao">
+    <!--后台管理-->
+    <resultMap id="blog" type="com.example.blogofmybatis.pojo.Blog">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="recommend" property="recommend"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="published" property="published"></result>
+        <result column="appreciation" property="appreciation"></result>
+        <result column="comment_tabled" property="commentTabled"></result>
+        <result column="content" property="content"></result>
+        <result column="first_picture" property="firstPicture"></result>
+        <result column="description" property="description"></result>
+        <result column="type_id" property="typeId"></result>
+        <association property="type" javaType="com.example.blogofmybatis.pojo.Type">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+    <!--后台博客管理页面数据查询-->
+    <select id="findAll" resultMap="blog" parameterType="com.example.blogofmybatis.vo.Page">
+        select b.id,b.title,t.name,b.recommend,b.update_time,b.published
+        from t_blog b,t_type t where b.type_id=t.id limit #{start},#{end};
+    </select>
+
+    <select id="getBlogById" parameterType="Long" resultMap="blog">
+        select * from t_blog where id = #{id};
+    </select>
+
+    <!--根据id查询t_blog-->
+<!--    注意要点：-->
+<!--    1.useGeneratedKeys="true"表示设置属性自增-->
+<!--2.keyProperty="id"设置主键的字段-->
+<!--3.parameterType="Student"设置传入的类型-->
+<!--4.注意：虽然有返回类型，但是我们不需要手动设置返回的类型，这个是由框架帮我们实现的，所以对应的接口方法也是没有返回值的,会修改我们插入的对象，设置id值。-->
+<!--5.实体类中id属性字段一定需要set以及get方法-->
+
+<!--1.最外层的<insert></insert>没有返回属性（resultType），但是里面的<selectKey></selectKey>是有返回值类型的。-->
+<!--2.order="AFTER"表示先执行插入，之后才执行selectkey语句的。-->
+<!--3.select @@identity和select LAST_INSERT_ID()都表示选出刚刚插入的最后一条数据的id。-->
+<!--4.实体类中id属性字段一定需要set以及get方法-->
+<!--5.此时，接口中仍不需要有返回值，框架会自动将值注入到我们insert的那个对象中，我们可以直接使用就可以了。-->
+<!--其实，我们的接口中可以有返回值，但是这个返回值不是id,而是表示插入后影响的行数，此时sql中仍和上面一样，不需要写返回值。-->
+
+    <insert id="saveBlog" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.blogofmybatis.pojo.Blog">
+        insert into t_blog values(#{id},#{appreciation},#{commentTabled},#{content},#{createTime},#{description},
+        #{firstPicture},#{flag},#{published},#{recommend},#{shareStatement},#{title},#{updateTime},#{views},#{typeId},#{userId});
+        <selectKey resultType="Long" keyProperty="id" order="AFTER">
+            select LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="updateBlog" parameterType="com.example.blogofmybatis.pojo.Blog">
+        update t_blog set appreciation=#{appreciation},comment_tabled=#{commentTabled},content=#{content},
+        description=#{description},first_picture=#{firstPicture},flag=#{flag},published=#{published},recommend=#{recommend},
+        share_statement=#{shareStatement},title=#{title},update_time=#{updateTime},type_id=#{typeId} where id=#{id};
+    </update>
+
+    <delete id="deleteBlog">
+        delete from t_blog where id = #{id};
+    </delete>
+
+
+
+    <!--前端首页查询-->
+    <resultMap id="blogIndex" type="com.example.blogofmybatis.vo.BlogIndex">
+        <id property="id" column="id"></id>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <result property="firstPicture" column="first_picture"></result>
+        <result property="views" column="views"></result>
+        <result property="description" column="description"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+
+        <result property="typeName" column="name"></result>
+
+        <result property="nickName" column="nick_name"></result>
+        <result property="avatar" column="avatar"></result>
+        <collection property="tags" ofType="com.example.blogofmybatis.pojo.Tag">
+            <id column="tid" property="id"></id>
+            <result column="tname" property="name"></result>
+        </collection>
+    </resultMap>
+    <!--博客前台查询博客-->
+    <select id="findBlogIndex" resultMap="blogIndex" parameterType="com.example.blogofmybatis.vo.Page">
+        select b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,
+               t.name,
+               u.nick_name,u.avatar
+        from t_blog b,t_type t,t_user u
+        where b.type_id=t.id and b.user_id=u.id limit #{start},#{end};
+    </select>
+
+    <select id="getBlogByTypeId" parameterType="Long" resultMap="blogIndex">
+        select b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,
+               t.name,
+               u.nick_name,u.avatar
+        from t_blog b,t_type t,t_user u
+        where b.type_id=t.id and b.user_id=u.id and t.id=#{id};
+    </select>
+
+    <!--根据标签查询博客-->
+    <select id="getBlogByTagId" parameterType="Long" resultMap="blogIndex">
+        select distinct b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,
+               t.name,
+               a.id as tid,a.name as tname,
+               u.nick_name,u.avatar
+        from t_blog b,t_type t,t_user u,t_tag a,t_tag_blogs tb
+        where b.type_id=t.id and b.user_id=u.id and b.id=tb.blogs_id and a.id=tb.tag_id and a.id=#{id};
+    </select>
+
+    <!--查询所有博客发布的年份-->
+    <select id="getBlogYear" resultType="String">
+        select distinct year(update_time) from t_blog;
+    </select>
+    <select id="getBlogByYear" parameterType="String" resultMap="blog">
+        select id,title,update_time,flag from t_blog where year(update_time)=#{year};
+    </select>
+
+    <!--查询博客总数-->
+    <select id="count" resultType="Long">
+        select count(*) from t_blog;
+    </select>
+
+    <!--分类页面实体类与数据库字段映射关系-->
+    <resultMap id="blogTypeWithCount" type="com.example.blogofmybatis.vo.BlogTypeWithCount">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="totalByType" property="totalByType"></result>
+    </resultMap>
+    <!--根据type分类获取type及type数量-->
+    <select id="getBlogCountByTypeId" resultMap="blogTypeWithCount">
+        select t.id,t.name,count(t.id) as totalByType from t_blog b,t_type t where b.type_id=t.id group by b.type_id;
+    </select>
+
+    <!--标签页面实体类与数据库字段映射关系-->
+    <resultMap id="blogTagWithCount" type="com.example.blogofmybatis.vo.BlogTagWithCount">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="blogOfTagCount" property="blogOfTagCount"></result>
+    </resultMap>
+
+    <select id="getBlogCountByTagId" resultMap="blogTagWithCount">
+        select t.id,t.name,count(tb.tag_id) as blogOfTagCount
+        from t_blog b,t_tag t,t_tag_blogs tb
+        where b.id=tb.blogs_id and t.id=tb.tag_id group by t.id;
+    </select>
+
+    <!--博客管理中搜索博客进行局部刷新-->
+    <select id="listBlog" parameterType="com.example.blogofmybatis.vo.SearchBlog" resultMap="blog">
+    <bind name="title" value="'%'+title+'%'"/>
+        select b.id,b.title,t.name,b.recommend,b.update_time,b.published
+        from t_blog b,t_type t
+         <where>
+             <if test="1==1">
+                 b.type_id=t.id
+             </if>
+             <if test="title != null">
+                 and b.title like #{title}
+             </if>
+             <if test="typeId != null">
+                 and t.id=#{typeId};
+             </if>
+         </where>
+    </select>
+
+    <!--获取博客详情-->
+    <resultMap id="blogDetail" type="com.example.blogofmybatis.vo.BlogDetail">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="recommend" property="recommend"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="published" property="published"></result>
+        <result column="appreciation" property="appreciation"></result>
+        <result column="comment_tabled" property="commentTabled"></result>
+        <result column="content" property="content"></result>
+        <result column="first_picture" property="firstPicture"></result>
+        <result column="description" property="description"></result>
+        <result column="flag" property="flag"></result>
+        <result column="views" property="views"></result>
+        <result column="share_statement" property="shareStatement"></result>
+
+        <result column="nick_name" property="nickName"></result>
+        <result column="avatar" property="avatar"></result>
+        <collection property="tags" ofType="com.example.blogofmybatis.pojo.Tag">
+            <id column="tid" property="id"></id>
+            <result column="name" property="name"></result>
+        </collection>
+    </resultMap>
+    <!--博客详情展示-->
+    <select id="getBlogDetailById" parameterType="Long" resultMap="blogDetail">
+        select b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,b.flag,
+               b.appreciation,b.share_statement,b.comment_tabled,b.recommend,
+               t.id as tid,t.name,
+               u.nick_name,u.avatar
+        from t_blog b,t_user u,t_tag t,t_tag_blogs tb
+        where  b.user_id=u.id and b.id=tb.blogs_id and t.id=tb.tag_id and b.id=#{id};
+    </select>
+
+    <update id="updateViews" parameterType="Long">
+        update t_blog set views=views+1 where id=#{id};
+    </update>
+
+    <!--添加blog与tag的中间表数据-->
+    <insert id="blogToTags" parameterType="Long">
+        insert into t_blog_tags(blog_id,tags_id) values(#{blogId},#{tagId});
+    </insert>
+
+    <!--删除blog与tag的中间表数据-->
+    <delete id="deleteBlogToTags" parameterType="Long">
+        delete from t_blog_tags where blog_id=#{blogId} and tags_id=#{tagId};
+    </delete>
+
+    <!--根据blogId查询对于的typeId-->
+    <select id="findBlogToTagsByBlogId" parameterType="Long" resultType="Long">
+        select tags_id from t_blog_tags where blog_id=#{blogId};
+    </select>
+
+    <!--前台搜索博客功能-->
+    <select id="searchBlog" parameterType="String" resultMap="blogIndex">
+        <bind name="query" value="'%'+query+'%'"/>
+        select b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,
+               t.name,
+               u.nick_name,u.avatar
+        from t_blog b,t_type t,t_user u
+        where b.type_id=t.id and b.user_id=u.id
+        and (b.title like #{query} or b.content like #{query} or b.description like #{query});
+<!--这里模糊查询时必须加括号，因为title前面是and，如果不加表示title必须成立，然后content或description成立，会存在重复的可能-->
+    </select>
+</mapper>
