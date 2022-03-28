@@ -12,11 +12,7 @@
     </resultMap>
     <!--获取顶级评论-->
     <select id="ListCommentByBlogParentId" parameterType="Long" resultMap="comment">
-        select * from t_comment where blog_id=#{id} and comment_id is null;
-    </select>
-    <!--根据父级id获取父级评论信息-->
-    <select id="commentByBlogId" parameterType="Long" resultMap="comment">
-        select * from t_comment where id=#{id};
+        select * from t_comment where blog_id=#{id} and comment_id is null order by create_time desc;
     </select>
     <!--保存评论-->
     <insert id="saveComment" parameterType="com.example.blogofmybatis.pojo.Comment">
@@ -25,7 +21,7 @@
     </insert>
     <!--获取子评论-->
     <select id="ListCommentByBlogParentNotNullId" resultMap="comment">
-        select * from t_comment where blog_id=#{blogId} and comment_id=#{id};
+        select * from t_comment where blog_id=#{blogId} and comment_id=#{id} order by create_time desc;
     </select>
 <!--    &lt;!&ndash;删除评论&ndash;&gt;-->
 <!--    <delete id="deleteComment" parameterType="Long">-->

@@ -15,9 +15,6 @@ public interface CommentDao  {
     //保存评论
     int saveComment(Comment comment);
 
-    //通过id获取到评论
-    Comment commentByBlogId(Long id);
-
     //根据博客id和父评论获取子评论
     List<Comment> ListCommentByBlogParentNotNullId(Long blogId,Long id);
 

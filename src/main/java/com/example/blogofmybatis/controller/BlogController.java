@@ -71,7 +71,6 @@ public class BlogController {
     //编辑(修改)完后进行保存
     @PostMapping("/blog/{id}")
     public String save(@Valid Blog blog) {
-        System.out.println(blog);
         blogService.updateBlog(blog);
         return "redirect:/admin/blogs";
     }
@@ -98,6 +97,8 @@ public class BlogController {
     //这里踩了个大坑
     @PostMapping("/blog")
     public String post(Blog blog,HttpSession session,RedirectAttributes attributes) {
+        System.out.println(blog);
+        //Blog{id=null, title='维护', content='页面维护', firstPicture='/image/3.jpg', flag='', views=null, appreciation=true, shareStatement=true, commentTabled=true, published=true, recommend=true, createTime=null, updateTime=null, type=Type{id=1, name='null'}, tags=[], user=null, comments=[], tagIds='1,8', description='维护', typeId=1, userId=null}
         blog.setUser((User) session.getAttribute("user"));
         //将数据存入时，前端页面填数据时，由于是新增，type是在自己的表中进行查询（添加时已经查询过），
         // 因此设置时要从typeService中根据id拿到对应的type，而这个id应该是blog中进行封装后的type的id
@@ -105,12 +106,13 @@ public class BlogController {
         blog.setTags(tagService.listTag(blog.getTagIds())); //这里涉及多个标签
         //对外键进行设置，第二行中type已经有值了，因此直接可以查到对于的id
         blog.setTypeId(blog.getType().getId());
+        //以下步骤多此一举，传入时tagId有值，且是“1,2,3”形式
         //将多个tag标签设置进blog中
-        StringBuilder builder=new StringBuilder();
-        for (Tag tag : blog.getTags()) {
-            builder.append(tag.getId());
-        }
-        blog.setTagIds(builder.toString());
+//        StringBuilder builder=new StringBuilder();
+//        for (Tag tag : blog.getTags()) {
+//            builder.append(tag.getId());   //这里不能直接拼接，不然不知道id为多少，例如拼接1,2,3为"123",如果tagId=12那完蛋了
+//        }                                  //可以每拼接一个加一个空格，取出时split分割
+//        blog.setTagIds(builder.toString());
         blog.setUserId(blog.getUser().getId());
         int blog1 = blogService.saveBlog(blog);
         if (blog1 == 0) {

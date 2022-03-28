@@ -18,6 +18,8 @@ public class BlogServiceImpl implements BlogService{
     private BlogDao blogDao;
     @Autowired
     private TagDao tagDao;
+    @Autowired
+    private TagServiceImpl tagService;
 
     @Override
     public List<Blog> findAll(Page page) {
@@ -64,17 +66,24 @@ public class BlogServiceImpl implements BlogService{
         // 我之前将String用charAt以为取出的是字面对于的数字，但它转的是ASCII码，要用Integer
         Long blogId = blog.getId();//这里能取出id的神奇之处在mybatis框架对sql语句的处理（并没设置id，数据库自动增长，框架为我们封装并返回）
         String tagIds = blog.getTagIds();
-        System.out.println(tagIds);
-        long longTagId;
-        for (int i=0;i<tagIds.length();i++) {
-            longTagId=Integer.parseInt(tagIds.charAt(i)+"");
-            Long tagId=new Long(longTagId);
-            System.out.println(tagId);
+        List<Long> tagIds1 = tagService.convertToList(tagIds);
+        for (Long tagId : tagIds1) {
             //博客表与标签表的中间表的对应关系
             blogDao.blogToTags(blogId,tagId);
             //标签表与博客表的中间表的对应关系
             tagDao.tagToBlogs(tagId,blogId);
         }
+        //用以下方法在id为1~9时没有问题，但是当我测试id大于等于10时，因为我是直接将数进行拼接，并没有将它们分隔，1,2拼接后为12(不知道是1,2还是12)
+//        long longTagId;
+//        for (int i=0;i<tagIds.length();i++) {
+//            longTagId=Integer.parseInt(tagIds.charAt(i)+"");
+//            Long tagId=new Long(longTagId);
+//            System.out.println(tagId);
+//            //博客表与标签表的中间表的对应关系
+//            blogDao.blogToTags(blogId,tagId);
+//            //标签表与博客表的中间表的对应关系
+//            tagDao.tagToBlogs(tagId,blogId);
+//        }
         return result;
     }
 
@@ -96,7 +105,6 @@ public class BlogServiceImpl implements BlogService{
         int result = blogDao.updateBlog(blog);
         //对修改后的标签与博客进行中间表维护
         String tagIds1 = blog.getTagIds();
-        TagServiceImpl tagService=new TagServiceImpl();
         List<Long> list = tagService.convertToList(tagIds1);//对字符串进行转换
         for (Long id : list) {
             blogDao.blogToTags(blogId,id);
