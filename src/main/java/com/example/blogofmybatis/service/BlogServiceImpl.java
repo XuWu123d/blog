@@ -64,10 +64,12 @@ public class BlogServiceImpl implements BlogService{
         // 我之前将String用charAt以为取出的是字面对于的数字，但它转的是ASCII码，要用Integer
         Long blogId = blog.getId();//这里能取出id的神奇之处在mybatis框架对sql语句的处理（并没设置id，数据库自动增长，框架为我们封装并返回）
         String tagIds = blog.getTagIds();
+        System.out.println(tagIds);
         long longTagId;
         for (int i=0;i<tagIds.length();i++) {
             longTagId=Integer.parseInt(tagIds.charAt(i)+"");
             Long tagId=new Long(longTagId);
+            System.out.println(tagId);
             //博客表与标签表的中间表的对应关系
             blogDao.blogToTags(blogId,tagId);
             //标签表与博客表的中间表的对应关系

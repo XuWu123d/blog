@@ -37,7 +37,6 @@ public class IndexController {
     @RequestMapping("/blog/{id}")
     public String blog(@PathVariable("id") Long id,Model model) {
         BlogDetail blog = blogService.getBlogConvert(id);
-        System.out.println(blog);
         model.addAttribute("blog",blog);
         return "blog";
     }

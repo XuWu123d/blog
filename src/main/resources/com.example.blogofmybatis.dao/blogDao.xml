@@ -90,7 +90,7 @@
                t.name,
                u.nick_name,u.avatar
         from t_blog b,t_type t,t_user u
-        where b.type_id=t.id and b.user_id=u.id limit #{start},#{end};
+        where b.type_id=t.id and b.user_id=u.id order by update_time desc limit #{start},#{end};
     </select>
 
     <select id="getBlogByTypeId" parameterType="Long" resultMap="blogIndex">
@@ -98,17 +98,26 @@
                t.name,
                u.nick_name,u.avatar
         from t_blog b,t_type t,t_user u
-        where b.type_id=t.id and b.user_id=u.id and t.id=#{id};
+        where b.type_id=t.id and b.user_id=u.id and t.id=#{id} order by create_time desc;
     </select>
 
+<!--    select distinct b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,
+                        t.name,
+                        a.id as tid,a.name as tname,
+                        u.nick_name,u.avatar
+        from t_blog b,t_type t,t_user u,t_tag a,t_tag_blogs tb
+        where b.type_id=t.id and b.user_id=u.id and b.id=tb.blogs_id and a.id=tb.tag_id and a.id=#{id};-->
     <!--根据标签查询博客-->
+    <!--对标签界面进行了完善，根据标签对博客进行分类只显示当前标签的问题进行了修改，修改后可以显示博客对应的所有标签-->
     <select id="getBlogByTagId" parameterType="Long" resultMap="blogIndex">
         select distinct b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,
-               t.name,
-               a.id as tid,a.name as tname,
-               u.nick_name,u.avatar
+                        t.name,
+                        a.id as tid,a.name as tname,
+                        u.nick_name,u.avatar
         from t_blog b,t_type t,t_user u,t_tag a,t_tag_blogs tb
-        where b.type_id=t.id and b.user_id=u.id and b.id=tb.blogs_id and a.id=tb.tag_id and a.id=#{id};
+        where b.type_id=t.id and b.user_id=u.id and b.id=tb.blogs_id and a.id=tb.tag_id and b.id in
+        (select b.id from t_blog b,t_tag a,t_tag_blogs tb where b.id=tb.blogs_id and a.id=tb.tag_id and a.id=#{id})
+        order by create_time desc;
     </select>
 
     <!--查询所有博客发布的年份-->
@@ -116,7 +125,7 @@
         select distinct year(update_time) from t_blog;
     </select>
     <select id="getBlogByYear" parameterType="String" resultMap="blog">
-        select id,title,update_time,flag from t_blog where year(update_time)=#{year};
+        select id,title,update_time,flag from t_blog where year(update_time)=#{year} order by update_time desc;
     </select>
 
     <!--查询博客总数-->
