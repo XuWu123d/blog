@@ -65,7 +65,7 @@ public class BlogController {
         return "admin/blogs-input";
     }
 
-    /*由于建表语句主键不能为空且不能自增长（除博客表，被我改过），导致博客管理界面无法编辑(修改提交后报错)，
+    /*由于建表语句之前是jpa自动生成，主键不能为空且不能自增长（除博客表，被我改过），导致博客管理界面无法编辑(修改提交后报错)，
     而分类和标签界面无法新增（原因就是主键不能为空且不能自增长，导致id为空报错）
     将建表语句改为主键自增后分类和标签界面正常，博客管理界面无论是新增还是编辑发布状态都是草稿（先放一放）*/
     //编辑(修改)完后进行保存
@@ -97,7 +97,7 @@ public class BlogController {
     //这里踩了个大坑
     @PostMapping("/blog")
     public String post(Blog blog,HttpSession session,RedirectAttributes attributes) {
-        System.out.println(blog);
+//        System.out.println(blog);
         //Blog{id=null, title='维护', content='页面维护', firstPicture='/image/3.jpg', flag='', views=null, appreciation=true, shareStatement=true, commentTabled=true, published=true, recommend=true, createTime=null, updateTime=null, type=Type{id=1, name='null'}, tags=[], user=null, comments=[], tagIds='1,8', description='维护', typeId=1, userId=null}
         blog.setUser((User) session.getAttribute("user"));
         //将数据存入时，前端页面填数据时，由于是新增，type是在自己的表中进行查询（添加时已经查询过），
@@ -106,7 +106,7 @@ public class BlogController {
         blog.setTags(tagService.listTag(blog.getTagIds())); //这里涉及多个标签
         //对外键进行设置，第二行中type已经有值了，因此直接可以查到对于的id
         blog.setTypeId(blog.getType().getId());
-        //以下步骤多此一举，传入时tagId有值，且是“1,2,3”形式
+        //以下步骤多此一举，传入时tagId有值，且是“1,2,3”形式(理解错误所致,o(╥﹏╥)o)
         //将多个tag标签设置进blog中
 //        StringBuilder builder=new StringBuilder();
 //        for (Tag tag : blog.getTags()) {
