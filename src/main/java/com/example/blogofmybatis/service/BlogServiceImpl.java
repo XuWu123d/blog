@@ -95,7 +95,6 @@ public class BlogServiceImpl implements BlogService{
         List<Long> tagIds = blogDao.findBlogToTagsByBlogId(blogId);
         for (Long tagId : tagIds) {
             blogDao.deleteBlogToTags(blogId,tagId);
-//            tagDao.deleteTagToBlogs(tagId,blogId);
         }
         //修改后的数据进行保存
         int result = blogDao.updateBlog(blog);
