@@ -101,12 +101,6 @@
         where b.type_id=t.id and b.user_id=u.id and t.id=#{id} order by create_time desc;
     </select>
 
-<!--    select distinct b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,
-                        t.name,
-                        a.id as tid,a.name as tname,
-                        u.nick_name,u.avatar
-        from t_blog b,t_type t,t_user u,t_tag a,t_tag_blogs tb
-        where b.type_id=t.id and b.user_id=u.id and b.id=tb.blogs_id and a.id=tb.tag_id and a.id=#{id};-->
     <!--根据标签查询博客-->
     <!--对标签界面进行了完善，根据标签对博客进行分类只显示当前标签的问题进行了修改，修改后可以显示博客对应的所有标签-->
     <select id="getBlogByTagId" parameterType="Long" resultMap="blogIndex">
@@ -114,9 +108,9 @@
                         t.name,
                         a.id as tid,a.name as tname,
                         u.nick_name,u.avatar
-        from t_blog b,t_type t,t_user u,t_tag a,t_tag_blogs tb
-        where b.type_id=t.id and b.user_id=u.id and b.id=tb.blogs_id and a.id=tb.tag_id and b.id in
-        (select b.id from t_blog b,t_tag a,t_tag_blogs tb where b.id=tb.blogs_id and a.id=tb.tag_id and a.id=#{id})
+        from t_blog b,t_type t,t_user u,t_tag a,t_blog_tags tb
+        where b.type_id=t.id and b.user_id=u.id and b.id=tb.blog_id and a.id=tb.tags_id and b.id in
+        (select b.id from t_blog b,t_tag a,t_blog_tags tb where b.id=tb.blog_id and a.id=tb.tags_id and a.id=#{id})
         order by create_time desc;
     </select>
 
@@ -152,9 +146,9 @@
     </resultMap>
 
     <select id="getBlogCountByTagId" resultMap="blogTagWithCount">
-        select t.id,t.name,count(tb.tag_id) as blogOfTagCount
-        from t_blog b,t_tag t,t_tag_blogs tb
-        where b.id=tb.blogs_id and t.id=tb.tag_id group by t.id;
+        select t.id,t.name,count(tb.tags_id) as blogOfTagCount
+        from t_blog b,t_tag t,t_blog_tags tb
+        where b.id=tb.blog_id and t.id=tb.tags_id group by t.id;
     </select>
 
     <!--博客管理中搜索博客进行局部刷新-->
@@ -199,14 +193,15 @@
             <result column="name" property="name"></result>
         </collection>
     </resultMap>
+
     <!--博客详情展示-->
     <select id="getBlogDetailById" parameterType="Long" resultMap="blogDetail">
         select b.id,b.title,b.content,b.first_picture,b.views,b.description,b.create_time,b.update_time,b.flag,
                b.appreciation,b.share_statement,b.comment_tabled,b.recommend,
                t.id as tid,t.name,
                u.nick_name,u.avatar
-        from t_blog b,t_user u,t_tag t,t_tag_blogs tb
-        where  b.user_id=u.id and b.id=tb.blogs_id and t.id=tb.tag_id and b.id=#{id};
+        from t_blog b,t_user u,t_tag t,t_blog_tags tb
+        where  b.user_id=u.id and b.id=tb.blog_id and t.id=tb.tags_id and b.id=#{id};
     </select>
 
     <update id="updateViews" parameterType="Long">
@@ -223,7 +218,7 @@
         delete from t_blog_tags where blog_id=#{blogId} and tags_id=#{tagId};
     </delete>
 
-    <!--根据blogId查询对于的typeId-->
+    <!--根据blogId查询对应的typeId-->
     <select id="findBlogToTagsByBlogId" parameterType="Long" resultType="Long">
         select tags_id from t_blog_tags where blog_id=#{blogId};
     </select>

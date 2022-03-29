@@ -18,18 +18,6 @@ public class CommentServiceImpl implements CommentService{
     //存放迭代找出的所有子代的集合
     private List<Comment> tempReplys=new ArrayList<>();
 
-    //根据创建时间先后给评论排序并展示
-//    @Override
-//    public List<Comment> ListCommentByBlogId(Long id) {
-////        Sort sort=Sort.by(Sort.Direction.ASC,"createTime");
-//        //拿到顶级父评论
-////        List<Comment> comments = commentDao.findByBlogIdAndCommentNull(id, sort);
-//        List<Comment> comments = commentDao.ListCommentByBlogId(id);
-//
-//        return eachComment(comments);
-//    }
-
-
     @Override
     public List<Comment> ListCommentByBlogId(Long blogId) {
         //获取所有顶级评论

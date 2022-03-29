@@ -37,14 +37,6 @@
         update t_tag set name=#{name} where id=#{id};
     </update>
 
-    <insert id="tagToBlogs" parameterType="Long">
-        insert into t_tag_blogs(tag_id,blogs_id) values(#{tagId},#{blogId});
-    </insert>
-
-    <delete id="deleteTagToBlogs" parameterType="Long">
-        delete from t_tag_blogs where tag_id=#{tagId} and blogs_id=#{blogId};
-    </delete>
-
     <!--分页查询标签-->
     <select id="pageTag" parameterType="com.example.blogofmybatis.vo.Page" resultMap="tag">
         select * from t_tag limit #{start},#{end};

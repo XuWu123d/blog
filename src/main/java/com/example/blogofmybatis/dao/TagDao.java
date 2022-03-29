@@ -43,9 +43,9 @@ public interface TagDao {
     //查询数量
     Long count();
 
-    //添加tag与blog表关系
-    void tagToBlogs(Long tagId, Long blogId);
-
-    //删除tag与blog表关系
-    void deleteTagToBlogs(Long tagId, Long blogId);
+//    //添加tag与blog表关系
+//    void tagToBlogs(Long tagId, Long blogId);
+//
+//    //删除tag与blog表关系
+//    void deleteTagToBlogs(Long tagId, Long blogId);
 }

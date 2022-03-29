@@ -16,8 +16,8 @@ import java.util.*;
 public class BlogServiceImpl implements BlogService{
     @Autowired
     private BlogDao blogDao;
-    @Autowired
-    private TagDao tagDao;
+//    @Autowired
+//    private TagDao tagDao;
     @Autowired
     private TagServiceImpl tagService;
 
@@ -70,8 +70,6 @@ public class BlogServiceImpl implements BlogService{
         for (Long tagId : tagIds1) {
             //博客表与标签表的中间表的对应关系
             blogDao.blogToTags(blogId,tagId);
-            //标签表与博客表的中间表的对应关系
-            tagDao.tagToBlogs(tagId,blogId);
         }
         //用以下方法在id为1~9时没有问题，但是当我测试id大于等于10时，因为我是直接将数进行拼接，并没有将它们分隔，1,2拼接后为12(不知道是1,2还是12)
 //        long longTagId;
@@ -81,8 +79,6 @@ public class BlogServiceImpl implements BlogService{
 //            System.out.println(tagId);
 //            //博客表与标签表的中间表的对应关系
 //            blogDao.blogToTags(blogId,tagId);
-//            //标签表与博客表的中间表的对应关系
-//            tagDao.tagToBlogs(tagId,blogId);
 //        }
         return result;
     }
@@ -99,7 +95,7 @@ public class BlogServiceImpl implements BlogService{
         List<Long> tagIds = blogDao.findBlogToTagsByBlogId(blogId);
         for (Long tagId : tagIds) {
             blogDao.deleteBlogToTags(blogId,tagId);
-            tagDao.deleteTagToBlogs(tagId,blogId);
+//            tagDao.deleteTagToBlogs(tagId,blogId);
         }
         //修改后的数据进行保存
         int result = blogDao.updateBlog(blog);
@@ -108,7 +104,6 @@ public class BlogServiceImpl implements BlogService{
         List<Long> list = tagService.convertToList(tagIds1);//对字符串进行转换
         for (Long id : list) {
             blogDao.blogToTags(blogId,id);
-            tagDao.tagToBlogs(id,blogId);
         }
         return result;
     }
@@ -121,7 +116,6 @@ public class BlogServiceImpl implements BlogService{
         List<Long> tagIds = blogDao.findBlogToTagsByBlogId(id);
         for (Long tagId : tagIds) {
             blogDao.deleteBlogToTags(id,tagId);
-            tagDao.deleteTagToBlogs(tagId,id);
         }
         blogDao.deleteBlog(id);
     }
